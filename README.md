@@ -95,6 +95,10 @@ O banco H2 foi utilizado durante os testes por ser um banco em memória.
 
 Isso permite que os testes sejam executados de forma rápida e isolada, sem depender de um banco de dados externo.
 
+#### Observação
+
+No frontend o Jest procura automaticamente arquivos com o padrão .test.ts e .test.tsx. Já no backend o Maven procura classes dentro de src/test/java e o JUnit executa todos os métodos marcados com a anotação @Test
+
 ---
 
 ## Benefícios Obtidos
