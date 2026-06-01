@@ -249,6 +249,12 @@ npm run test
 ```bash
 cd api
 mvnw.cmd test
+
+Caso não executar:
+mvnw.cmd -v
+set JAVA_HOME=C:\Program Files\Java\jdk-17
+set PATH=%JAVA_HOME%\bin;%PATH%
+mvnw.cmd test
 ```
 
 ---
