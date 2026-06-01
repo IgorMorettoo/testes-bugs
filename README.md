@@ -27,6 +27,88 @@ O trabalho consistiu em analisar o comportamento da aplicação com base nos req
 
 ---
 
+## Justificativa das Tecnologias Utilizadas
+
+### Frontend
+
+#### Next.js
+
+O Next.js foi utilizado por ser o framework principal da aplicação frontend. Ele fornece a estrutura necessária para criação de páginas, componentes e rotas, além de oferecer integração nativa com React.
+
+#### React
+
+O React é responsável pela construção da interface da aplicação através de componentes reutilizáveis, facilitando a organização e manutenção do código.
+
+#### TypeScript
+
+O TypeScript foi utilizado para adicionar tipagem estática ao projeto, reduzindo erros durante o desenvolvimento e tornando o código mais seguro e legível.
+
+#### Jest
+
+O Jest foi utilizado como framework de testes do frontend. Sua função é executar os testes automatizados e validar os resultados esperados.
+
+Foi escolhido por ser uma das ferramentas mais utilizadas no ecossistema React e por possuir integração simples com projetos Next.js.
+
+#### Testing Library
+
+A Testing Library foi utilizada para testar componentes e fluxos da aplicação simulando interações reais do usuário.
+
+Com ela foi possível validar ações como:
+
+- Renderização de componentes
+- Cliques em botões
+- Alterações na interface
+- Mensagens exibidas ao usuário
+
+Sua principal vantagem é focar no comportamento da aplicação ao invés de detalhes internos da implementação.
+
+---
+
+### Backend
+
+#### Spring Boot
+
+O Spring Boot foi utilizado como framework principal da API.
+
+Ele simplifica a criação de aplicações Java, oferecendo recursos para desenvolvimento de APIs REST, gerenciamento de dependências e integração com banco de dados.
+
+#### JUnit 5
+
+O JUnit 5 foi utilizado para criação dos testes automatizados do backend.
+
+Sua função é validar o comportamento dos métodos e endpoints da aplicação através de testes unitários e de integração.
+
+#### MockMvc
+
+O MockMvc foi utilizado para simular requisições HTTP sem a necessidade de iniciar o servidor manualmente.
+
+Com ele foi possível:
+
+- Enviar requisições POST
+- Validar códigos de status HTTP
+- Validar respostas JSON
+- Testar os endpoints da API de forma automatizada
+
+#### H2 Database
+
+O banco H2 foi utilizado durante os testes por ser um banco em memória.
+
+Isso permite que os testes sejam executados de forma rápida e isolada, sem depender de um banco de dados externo.
+
+---
+
+## Benefícios Obtidos
+
+A utilização dessas tecnologias permitiu:
+
+- Automatizar a validação dos requisitos da aplicação;
+- Identificar bugs de forma rápida;
+- Garantir maior confiabilidade durante futuras alterações;
+- Facilitar a manutenção do sistema;
+- Aplicar na prática conceitos de testes unitários, integração e regressão.
+
+---
+
 ## Estrutura dos Testes
 
 ### Frontend
