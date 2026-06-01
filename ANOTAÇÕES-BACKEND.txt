@@ -1,0 +1,318 @@
+# Guia de Apresentação – Backend
+
+## Estrutura dos Testes
+
+Para o backend foi criada uma classe de teste específica para o controller de autenticação.
+
+Estrutura:
+
+```text
+src/test/java/com/demoapp/demo/controller
+└── AuthControllerTest.java
+```
+
+Essa organização segue o padrão utilizado em projetos Spring Boot, onde cada classe principal da aplicação possui uma classe de teste correspondente.
+
+Exemplo:
+
+```text
+AuthController.java
+↓
+AuthControllerTest.java
+```
+
+---
+
+## Por que criar um arquivo separado?
+
+O arquivo:
+
+```text
+AuthController.java
+```
+
+contém a lógica da aplicação utilizada pelos usuários.
+
+Já o arquivo:
+
+```text
+AuthControllerTest.java
+```
+
+contém apenas os testes responsáveis por validar essa lógica.
+
+Manter os testes separados facilita:
+
+- Organização do projeto;
+- Manutenção do código;
+- Identificação de erros;
+- Leitura dos testes.
+
+---
+
+## Por que utilizar a pasta src/test?
+
+Estrutura utilizada:
+
+```text
+src
+├── main
+│   └── java
+│       └── AuthController.java
+└── test
+    └── java
+        └── AuthControllerTest.java
+```
+
+A pasta:
+
+```text
+src/main/java
+```
+
+é utilizada para o código da aplicação.
+
+Já a pasta:
+
+```text
+src/test/java
+```
+
+é utilizada exclusivamente para os testes.
+
+Quando executamos:
+
+```bash
+mvnw.cmd test
+```
+
+o Maven procura automaticamente os testes dentro de:
+
+```text
+src/test/java
+```
+
+---
+
+# Tecnologias Utilizadas
+
+## JUnit 5
+
+Framework responsável pela execução dos testes automatizados.
+
+Permite validar se o resultado obtido é igual ao resultado esperado.
+
+---
+
+## SpringBootTest
+
+Utilizado para carregar o contexto completo da aplicação durante os testes.
+
+Isso permite testar os endpoints em um ambiente muito próximo do ambiente real.
+
+---
+
+## MockMvc
+
+Utilizado para simular requisições HTTP sem precisar iniciar um servidor manualmente.
+
+Com ele foi possível testar:
+
+```text
+POST
+GET
+PUT
+DELETE
+```
+
+e validar:
+
+- Status HTTP;
+- Respostas JSON;
+- Comportamento dos endpoints.
+
+---
+
+## H2 Database
+
+Banco de dados utilizado durante os testes.
+
+Por ser um banco em memória, os testes são executados de forma rápida e sem depender de um banco externo.
+
+---
+
+# Arquivo de Teste
+
+Arquivo:
+
+```text
+AuthControllerTest.java
+```
+
+Foram criados três cenários de teste.
+
+---
+
+## Teste 1 – Cadastro de Usuário
+
+Método:
+
+```java
+shouldCreateUserSuccessfully()
+```
+
+Objetivo:
+
+Validar se um usuário consegue ser cadastrado corretamente.
+
+Fluxo:
+
+```text
+Envia email e senha válidos
+↓
+Executa /auth/signup
+↓
+Valida status 200
+↓
+Valida email retornado
+```
+
+Resultado:
+
+```text
+PASSOU
+```
+
+---
+
+## Teste 2 – Login Inválido
+
+Método:
+
+```java
+shouldReturnInvalidCredentials()
+```
+
+Objetivo:
+
+Garantir que usuários inexistentes não consigam realizar login.
+
+Fluxo:
+
+```text
+Envia credenciais inválidas
+↓
+Executa /auth/signin
+↓
+Valida status 401
+↓
+Valida mensagem de erro
+```
+
+Mensagem esperada:
+
+```text
+Credenciais inválidas
+```
+
+Resultado:
+
+```text
+PASSOU
+```
+
+---
+
+## Teste 3 – Captura de Bug
+
+Método:
+
+```java
+shouldFailBecauseResetMessageIsDifferentFromRequirement()
+```
+
+Objetivo:
+
+Capturar uma divergência entre o requisito e a implementação da API.
+
+Requisito:
+
+```text
+E-mail enviado com sucesso
+```
+
+Mensagem retornada pela API:
+
+```text
+Senha redefinida com sucesso (fake)
+```
+
+Fluxo:
+
+```text
+Cadastra usuário
+↓
+Executa reset de senha
+↓
+Compara mensagem retornada
+```
+
+Resultado:
+
+```text
+FALHOU
+```
+
+---
+
+# Resultado da Execução
+
+Resultado obtido:
+
+```text
+Tests run: 3
+Failures: 1
+Errors: 0
+```
+
+Interpretação:
+
+```text
+2 testes passaram
+1 teste falhou
+0 erros de execução
+```
+
+O teste que falhou foi criado propositalmente para demonstrar a existência de um bug identificado durante a análise dos requisitos.
+
+---
+
+
+
+## Por que criar uma classe de teste separada?
+
+Porque ela possui uma responsabilidade diferente da classe principal da aplicação. O objetivo é manter o código de produção separado do código de teste.
+
+---
+
+## Por que usar MockMvc?
+
+Porque ele permite testar endpoints REST sem a necessidade de iniciar um servidor real.
+
+---
+
+## O que significa "Tests run: 3"?
+
+Significa que três cenários de teste foram executados.
+
+---
+
+## O que significa "Failures: 1"?
+
+Significa que um dos testes encontrou um comportamento diferente do esperado.
+
+---
+
+## O que significa "Errors: 0"?
+
+Significa que não houve erro de execução nos testes. Todos os testes foram executados corretamente.

@@ -1,0 +1,499 @@
+# Guia de Apresentação – Testes Automatizados (Frontend)
+
+## Organização dos Testes
+
+Durante o desenvolvimento dos testes automatizados, os arquivos foram organizados de acordo com a responsabilidade de cada funcionalidade testada.
+
+A estrutura ficou da seguinte forma:
+
+```text
+src/test
+├── utils
+│   └── password.test.ts
+├── components
+│   └── Header.test.tsx
+└── integration
+    └── PostCard.test.tsx
+```
+
+Essa organização foi escolhida para facilitar a manutenção dos testes, melhorar a leitura do projeto e seguir uma separação lógica entre funções, componentes e fluxos de integração.
+
+---
+
+# Arquivo: password.test.ts
+
+Local:
+
+```text
+src/test/utils/password.test.ts
+```
+
+Categoria:
+
+```text
+Teste Unitário (Funções Simples)
+```
+
+Motivo:
+
+Esse arquivo testa funções utilitárias responsáveis pela validação de senha.
+
+As funções testadas não renderizam componentes, não exibem telas e não dependem do React. Elas apenas recebem valores, processam informações e retornam resultados.
+
+Exemplo:
+
+```ts
+isPasswordValid()
+getPasswordValidationMessage()
+```
+
+Por esse motivo o teste foi colocado na pasta:
+
+```text
+utils
+```
+
+---
+
+## Testes realizados
+
+### Teste 1 – Senha forte válida
+
+Valida que uma senha que atende todos os requisitos é considerada válida.
+
+```ts
+expect(isPasswordValid("Senha@123")).toBe(true);
+```
+
+Resultado:
+
+```text
+PASSOU
+```
+
+---
+
+### Teste 2 – Captura de bug
+
+Valida uma senha com exatamente 8 caracteres.
+
+```ts
+expect(isPasswordValid("Abc@1234")).toBe(true);
+```
+
+Resultado:
+
+```text
+FALHOU
+```
+
+Motivo:
+
+O requisito informa que a senha deve possuir no mínimo 8 caracteres.
+
+Entretanto, a implementação considera inválidas senhas com exatamente 8 caracteres.
+
+Código encontrado:
+
+```ts
+password.length <= 8
+```
+
+Implementação correta:
+
+```ts
+password.length < 8
+```
+
+Esse teste foi criado propositalmente para evidenciar o bug.
+
+---
+
+### Teste 3 – Mensagem de validação
+
+Valida se a função retorna corretamente a mensagem de erro esperada.
+
+Resultado:
+
+```text
+PASSOU
+```
+
+---
+
+# Arquivo: Header.test.tsx
+
+Local:
+
+```text
+src/test/components/Header.test.tsx
+```
+
+Categoria:
+
+```text
+Teste Unitário de Componente
+```
+
+Motivo:
+
+Esse arquivo testa o componente Header de forma isolada.
+
+O objetivo é verificar apenas a renderização e o conteúdo exibido pelo componente.
+
+O componente original está localizado em:
+
+```text
+src/components/Header.tsx
+```
+
+Por esse motivo o teste foi colocado na pasta:
+
+```text
+components
+```
+
+---
+
+## Testes realizados
+
+### Teste 1 – Renderização do título
+
+Valida se o texto:
+
+```text
+SQA Social Media
+```
+
+é exibido corretamente.
+
+Resultado:
+
+```text
+PASSOU
+```
+
+---
+
+### Teste 2 – Usuário não autenticado
+
+Valida se os botões:
+
+```text
+Entrar
+Criar Conta
+```
+
+são exibidos quando o usuário não está autenticado.
+
+Resultado:
+
+```text
+PASSOU
+```
+
+---
+
+# Arquivo: PostCard.test.tsx
+
+Local:
+
+```text
+src/test/integration/PostCard.test.tsx
+```
+
+Categoria:
+
+```text
+Teste de Integração
+```
+
+Motivo:
+
+Diferentemente dos testes anteriores, este não valida apenas a renderização de um componente.
+
+Ele valida o comportamento completo de um fluxo da aplicação.
+
+Durante os testes ocorre:
+
+```text
+Clique do usuário
+↓
+Verificação de autenticação
+↓
+Execução da lógica
+↓
+Alteração da interface
+↓
+Feedback visual
+```
+
+Como diversas partes da aplicação trabalham juntas, o teste é classificado como um teste de integração.
+
+Por esse motivo foi colocado na pasta:
+
+```text
+integration
+```
+
+---
+
+## Testes realizados
+
+### Teste 1 – Curtir sem autenticação
+
+Fluxo validado:
+
+```text
+Usuário não autenticado
+↓
+Clica em Curtir
+↓
+Sistema exibe alerta
+```
+
+Resultado:
+
+```text
+PASSOU
+```
+
+---
+
+### Teste 2 – Curtir autenticado
+
+Fluxo validado:
+
+```text
+Usuário autenticado
+↓
+Clica em Curtir
+↓
+Botão muda para "Curtido"
+```
+
+Resultado:
+
+```text
+PASSOU
+```
+
+---
+
+# Explicação da Cobertura de Testes
+
+Após executar os testes, o Jest apresenta uma tabela de cobertura.
+
+Exemplo:
+
+```text
+File           % Stmts % Branch % Funcs % Lines
+```
+
+Essa tabela mostra quanto do código da aplicação foi executado pelos testes.
+
+---
+
+## % Stmts
+
+Representa a porcentagem de instruções executadas.
+
+Exemplo:
+
+```text
+79.52%
+```
+
+Significa que aproximadamente 80% das instruções da aplicação foram executadas durante os testes.
+
+---
+
+## % Branch
+
+Representa a cobertura de decisões.
+
+Exemplo:
+
+```text
+75%
+```
+
+Considera estruturas como:
+
+```ts
+if (...) {
+}
+else {
+}
+```
+
+Quanto maior o percentual, mais caminhos possíveis da aplicação foram testados.
+
+---
+
+## % Funcs
+
+Representa a quantidade de funções executadas.
+
+Exemplo:
+
+```text
+36.84%
+```
+
+Significa que aproximadamente 37% das funções existentes foram chamadas durante os testes.
+
+---
+
+## % Lines
+
+Representa a porcentagem de linhas executadas.
+
+Exemplo:
+
+```text
+79.52%
+```
+
+Quanto maior esse valor, maior a quantidade de código efetivamente testada.
+
+---
+
+## Uncovered Line #
+
+Exemplo:
+
+```text
+Button.tsx
+24-28
+36
+41-51
+```
+
+Significa que essas linhas não foram executadas durante os testes.
+
+Em outras palavras:
+
+```text
+Coberto = Executado pelos testes
+Uncovered = Não executado pelos testes
+```
+
+---
+
+# Explicação dos Resultados
+
+Resultado apresentado:
+
+```text
+Test Suites: 1 failed, 2 passed, 3 total
+Tests: 1 failed, 6 passed, 7 total
+```
+
+---
+
+## Test Suites
+
+Representa a quantidade de arquivos de teste.
+
+No projeto existem:
+
+```text
+password.test.ts
+Header.test.tsx
+PostCard.test.tsx
+```
+
+Total:
+
+```text
+3 suítes de teste
+```
+
+Resultado:
+
+```text
+2 passaram
+1 falhou
+```
+
+---
+
+## Tests
+
+Representa os testes individuais executados.
+
+Distribuição:
+
+```text
+password.test.ts = 3 testes
+Header.test.tsx = 2 testes
+PostCard.test.tsx = 2 testes
+```
+
+Total:
+
+```text
+7 testes
+```
+
+Resultado:
+
+```text
+6 passaram
+1 falhou
+```
+
+---
+
+
+
+## Por que os testes foram separados em arquivos diferentes?
+
+Porque cada arquivo possui uma responsabilidade diferente.
+
+Misturar testes de senha, componentes e integração em um único arquivo dificultaria a manutenção e a identificação de problemas.
+
+A separação torna o projeto mais organizado e facilita futuras alterações.
+
+---
+
+## Por que o password ficou em utils?
+
+Porque ele testa funções auxiliares da aplicação que não dependem do React nem renderizam componentes.
+
+---
+
+## Por que o Header ficou em components?
+
+Porque ele testa exclusivamente um componente React de forma isolada.
+
+---
+
+## Por que o PostCard ficou em integration?
+
+Porque ele valida um fluxo completo envolvendo interação do usuário, alteração de estado e atualização da interface.
+
+---
+
+## Por que existe um teste falhando?
+
+Porque o objetivo da atividade não era apenas validar funcionalidades corretas, mas também identificar bugs existentes.
+
+O teste que falha comprova que a validação de senha não atende completamente ao requisito especificado.
+
+---
+
+## Por que foram criados 7 testes se o requisito pedia 6?
+
+Porque o requisito estabelecia uma quantidade mínima de testes.
+
+Durante a análise foi identificado mais um cenário relevante relacionado à validação de senha, sendo criado um teste adicional para aumentar a cobertura da funcionalidade.
+
+---
+
+## O que é um teste de regressão?
+
+É um teste criado para garantir que funcionalidades que já funcionam corretamente continuem funcionando após futuras alterações no sistema.
+
+---
