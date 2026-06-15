@@ -263,8 +263,200 @@ mvnw.cmd test
 
 ---
 
+# Atividade 5 - Testes End-to-End (E2E) e de API
+
+## Objetivo
+
+Expandir a cobertura de testes da aplicação SQA Social Media através da implementação de testes End-to-End (E2E) e testes de API utilizando o framework Playwright.
+
+Diferentemente da Atividade 4, que focou em testes de caixa branca (unitários e integração), esta etapa teve como objetivo validar o comportamento da aplicação em execução, simulando ações reais de usuários e consumindo diretamente os endpoints disponibilizados pela API.
+
+---
+
+## Ferramentas Utilizadas
+
+### Playwright
+
+O Playwright foi utilizado para a implementação dos testes E2E e de API.
+
+A ferramenta foi escolhida por permitir:
+
+* Automação de navegadores modernos;
+* Simulação de interações reais do usuário;
+* Execução de testes de API sem necessidade de ferramentas externas;
+* Geração automática de relatórios;
+* Integração com TypeScript.
+
+---
+
+## Estrutura dos Testes
+
+```text
+tests
+├── e2e.spec.ts
+└── api.spec.ts
+```
+
+### e2e.spec.ts
+
+Responsável pelos testes End-to-End da aplicação.
+
+### api.spec.ts
+
+Responsável pelos testes de API realizados diretamente nos endpoints do backend.
+
+---
+
+## Testes End-to-End (E2E)
+
+### Cadastro de Usuário
+
+Objetivo:
+
+Validar o fluxo completo de criação de conta.
+
+Fluxo testado:
+
+1. Acessar a página de cadastro;
+2. Informar e-mail válido;
+3. Informar senha;
+4. Confirmar senha;
+5. Criar conta;
+6. Verificar redirecionamento para o Feed de Posts.
+
+Resultado esperado:
+
+```text
+Feed de Posts
+```
+
+---
+
+### Curtida de Postagem
+
+Objetivo:
+
+Validar que um usuário autenticado consegue interagir com uma postagem.
+
+Fluxo testado:
+
+1. Criar uma conta;
+2. Acessar o Feed;
+3. Clicar no botão "Curtir";
+4. Verificar alteração do estado do botão.
+
+Resultado esperado:
+
+```text
+Curtir → Curtido
+```
+
+---
+
+## Testes de API
+
+### Cadastro com Sucesso
+
+Endpoint:
+
+```http
+POST /auth/signup
+```
+
+Valida:
+
+* Status HTTP 200;
+* Retorno dos dados do usuário criado.
+
+---
+
+### Cadastro com E-mail Duplicado
+
+Endpoint:
+
+```http
+POST /auth/signup
+```
+
+Valida:
+
+* Status HTTP 409;
+* Mensagem "E-mail já está em uso".
+
+---
+
+### Login com Sucesso
+
+Endpoint:
+
+```http
+POST /auth/signin
+```
+
+Valida:
+
+* Status HTTP 200;
+* Retorno do usuário autenticado.
+
+---
+
+### Login com Credenciais Inválidas
+
+Endpoint:
+
+```http
+POST /auth/signin
+```
+
+Valida:
+
+* Status HTTP 401;
+* Mensagem "Credenciais inválidas".
+
+---
+
+## Banco de Dados
+
+Foi utilizado MySQL para armazenamento dos dados gerados durante a execução dos testes.
+
+As tabelas foram criadas automaticamente pelo Hibernate através da configuração:
+
+```properties
+spring.jpa.hibernate.ddl-auto=update
+```
+
+Tabelas geradas:
+
+```text
+user_table
+user_post_reaction
+```
+
+---
+
+## Resultados Obtidos - Atividade 5
+
+| Tipo de Teste | Quantidade |
+| ------------- | ---------- |
+| Testes E2E    | 2          |
+| Testes de API | 4          |
+| Total         | 6          |
+
+Resultado da execução:
+
+```text
+Running 6 tests
+
+6 passed
+```
+
+Todos os testes foram executados com sucesso, validando os principais fluxos da aplicação e os comportamentos esperados da API.
+
+
 ## Considerações Finais
 
 A atividade permitiu aplicar na prática conceitos de testes unitários, testes de integração e testes de regressão, demonstrando a importância da automação na validação de requisitos e na identificação de falhas durante o desenvolvimento de software.
 
 Além da validação de funcionalidades já implementadas, os testes desenvolvidos também foram capazes de evidenciar bugs existentes na aplicação, contribuindo para a melhoria da qualidade do sistema e para futuras manutenções.
+
+Além dos testes unitários e de integração desenvolvidos na Atividade 4, foram implementados testes End-to-End e testes de API utilizando Playwright, ampliando a cobertura da aplicação e validando o comportamento do sistema de ponta a ponta, desde a interface do usuário até os endpoints do backend.
