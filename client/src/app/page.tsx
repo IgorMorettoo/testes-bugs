@@ -35,6 +35,8 @@ export default function Home() {
         userId: user?.id,
       });
 
+      console.log("POST RECEBIDO:", response.posts[0]);
+
       if (page === 0) {
         setPosts(response.posts);
       } else {
