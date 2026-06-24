@@ -69,11 +69,15 @@ jobs:
       - name: Iniciar frontend
         working-directory: ./client
         run: |
-          nohup npm run dev > frontend.log 2>&1 &
+          nohup npm run dev -- --hostname 0.0.0.0 > frontend.log 2>&1 &
+
+      - name: Instalar wait-on
+        run: npm install -g wait-on
 
       - name: Aguardar backend e frontend
         run: |
-          npx wait-on http://localhost:8080 http://localhost:3000
+         wait-on http://127.0.0.1:8080/
+         wait-on http://127.0.0.1:3000/
 
       - name: Rodar testes Playwright
         working-directory: ./tests
