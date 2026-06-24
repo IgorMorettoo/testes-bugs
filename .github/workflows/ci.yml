@@ -1,0 +1,77 @@
+name: CI - Testes Automatizados
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: demo
+          MYSQL_ROOT_PASSWORD: admin
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -uroot -padmin"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Rodar testes do backend
+        working-directory: ./api
+        run: ./mvnw test
+
+      - name: Instalar dependências do frontend
+        working-directory: ./client
+        run: npm ci
+
+      - name: Rodar testes do frontend
+        working-directory: ./client
+        run: npm test -- --watchAll=false
+
+      - name: Instalar dependências do Playwright
+        working-directory: ./tests
+        run: npm ci
+
+      - name: Instalar navegador Chromium
+        working-directory: ./tests
+        run: npx playwright install --with-deps chromium
+
+      - name: Iniciar backend
+        working-directory: ./api
+        run: |
+          nohup ./mvnw spring-boot:run > backend.log 2>&1 &
+
+      - name: Iniciar frontend
+        working-directory: ./client
+        run: |
+          nohup npm run dev > frontend.log 2>&1 &
+
+      - name: Aguardar backend e frontend
+        run: |
+          npx wait-on http://localhost:8080 http://localhost:3000
+
+      - name: Rodar testes Playwright
+        working-directory: ./tests
+        run: npx playwright test --project=chromium
