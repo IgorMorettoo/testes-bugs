@@ -38,6 +38,9 @@ jobs:
         with:
           node-version: 22
 
+      - name: Dar permissão ao Maven Wrapper
+        run: chmod +x api/mvnw
+
       - name: Rodar testes do backend
         working-directory: ./api
         run: ./mvnw test
