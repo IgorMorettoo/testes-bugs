@@ -61,16 +61,17 @@ jobs:
         working-directory: ./tests
         run: npx playwright install --with-deps chromium
 
+      - name: Instalar wait-on
+        run: npm install -g wait-on
+
       - name: Iniciar backend
         working-directory: ./api
-        env:
-          SPRING_PROFILES_ACTIVE: test
         run: |
           nohup ./mvnw spring-boot:run > backend.log 2>&1 &
 
       - name: Mostrar log do backend
         run: |
-          sleep 20
+          sleep 30
           cat api/backend.log
 
       - name: Iniciar frontend
@@ -80,16 +81,13 @@ jobs:
 
       - name: Mostrar log do frontend
         run: |
-          sleep 20
+          sleep 15
           cat client/frontend.log
-
-      - name: Instalar wait-on
-        run: npm install -g wait-on
 
       - name: Aguardar backend e frontend
         run: |
-         wait-on http://127.0.0.1:8080/
-         wait-on http://127.0.0.1:3000/
+          wait-on http://127.0.0.1:8080/
+          wait-on http://127.0.0.1:3000/
 
       - name: Rodar testes Playwright
         working-directory: ./tests
