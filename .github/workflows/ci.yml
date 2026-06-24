@@ -63,13 +63,25 @@ jobs:
 
       - name: Iniciar backend
         working-directory: ./api
+        env:
+          SPRING_PROFILES_ACTIVE: test
         run: |
           nohup ./mvnw spring-boot:run > backend.log 2>&1 &
+
+      - name: Mostrar log do backend
+        run: |
+          sleep 20
+          cat api/backend.log
 
       - name: Iniciar frontend
         working-directory: ./client
         run: |
           nohup npm run dev -- --hostname 0.0.0.0 > frontend.log 2>&1 &
+
+      - name: Mostrar log do frontend
+        run: |
+          sleep 20
+          cat client/frontend.log
 
       - name: Instalar wait-on
         run: npm install -g wait-on
