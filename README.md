@@ -452,7 +452,6 @@ Running 6 tests
 
 Todos os testes foram executados com sucesso, validando os principais fluxos da aplicação e os comportamentos esperados da API.
 
-
 ## Considerações Finais
 
 A atividade permitiu aplicar na prática conceitos de testes unitários, testes de integração e testes de regressão, demonstrando a importância da automação na validação de requisitos e na identificação de falhas durante o desenvolvimento de software.
