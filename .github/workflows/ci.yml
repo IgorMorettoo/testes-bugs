@@ -86,8 +86,7 @@ jobs:
 
       - name: Aguardar backend e frontend
         run: |
-          wait-on http://127.0.0.1:8080/
-          wait-on http://127.0.0.1:3000/
+          wait-on tcp:127.0.0.1:8080 tcp:127.0.0.1:3000 --timeout 120000
 
       - name: Rodar testes Playwright
         working-directory: ./tests
